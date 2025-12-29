@@ -114,7 +114,7 @@ class ElementBuilder:
 
         image = ft.Image(
             src=value,
-            fit=ft.ImageFit.CONTAIN,
+            fit=ft.BoxFit.CONTAIN,
             border_radius=ft.border_radius.all(8) if element.get("roundedCorners", False) else None,
         )
 
@@ -321,7 +321,7 @@ class ElementBuilder:
                         ft.Text("Before", size=12, color=ft.Colors.GREY),
                         ft.Image(
                             src=value_first,
-                            fit=ft.ImageFit.CONTAIN,
+                            fit=ft.BoxFit.CONTAIN,
                             width=200,
                             border_radius=8,
                         ),
@@ -333,7 +333,7 @@ class ElementBuilder:
                         ft.Text("After", size=12, color=ft.Colors.GREY),
                         ft.Image(
                             src=value_second,
-                            fit=ft.ImageFit.CONTAIN,
+                            fit=ft.BoxFit.CONTAIN,
                             width=200,
                             border_radius=8,
                         ),
