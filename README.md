@@ -38,6 +38,25 @@ python main.py
 
 This will start the Flet application and open a window displaying the UI built from the JSON configuration.
 
+## Project Structure
+
+```
+flet_from_json/
+├── main.py                    # Application entry point
+├── requirements.txt           # Python dependencies
+├── .env.example               # Environment configuration example
+├── README.md                  # This file
+├── flet_from_json/            # Main package
+│   ├── __init__.py            # Package exports
+│   ├── state.py               # Application state management (AppState)
+│   ├── constants.py           # Color, font size, and icon mappings
+│   ├── elements.py            # Element builders (ElementBuilder)
+│   ├── builder.py             # JSON UI builder (JsonUIBuilder)
+│   └── config.py              # Configuration loading utilities
+└── examples/
+    └── example_data.json      # Example JSON configuration
+```
+
 ## JSON Format
 
 The application supports the following element types from the JSON configuration:
