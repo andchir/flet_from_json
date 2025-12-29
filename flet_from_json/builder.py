@@ -35,7 +35,7 @@ class JsonUIBuilder:
             self._build_single_page(blocks)
 
     def _build_tabbed_interface(self, tabs_config: list, blocks: list) -> None:
-        """Build a tabbed interface."""
+        """Build a tabbed interface using TabBar and TabBarView (Flet 0.80+)."""
         # Group blocks by tabIndex
         blocks_by_tab: dict[int, list] = {}
         for block in blocks:
@@ -44,25 +44,37 @@ class JsonUIBuilder:
                 blocks_by_tab[tab_index] = []
             blocks_by_tab[tab_index].append(block)
 
-        # Create tabs
-        flet_tabs = []
-        for i, tab_name in enumerate(tabs_config):
+        # Create TabBar tabs
+        tab_bar_tabs = []
+        for tab_name in tabs_config:
+            tab_bar_tabs.append(ft.Tab(label=tab_name))
+
+        # Create TabBarView controls (content for each tab)
+        tab_views = []
+        for i in range(len(tabs_config)):
             tab_blocks = blocks_by_tab.get(i, [])
             tab_content = self._build_blocks_content(tab_blocks)
-
-            flet_tabs.append(ft.Tab(
-                label=tab_name,
-                content=ft.Container(
-                    content=tab_content,
-                    padding=20,
-                ),
+            tab_views.append(ft.Container(
+                content=tab_content,
+                padding=20,
             ))
 
+        # Build the Tabs control with TabBar and TabBarView
         tabs_control = ft.Tabs(
             selected_index=0,
+            length=len(tabs_config),
             animation_duration=300,
-            tabs=flet_tabs,
             expand=True,
+            content=ft.Column(
+                expand=True,
+                controls=[
+                    ft.TabBar(tabs=tab_bar_tabs),
+                    ft.TabBarView(
+                        expand=True,
+                        controls=tab_views,
+                    ),
+                ],
+            ),
         )
 
         self.page.add(tabs_control)
