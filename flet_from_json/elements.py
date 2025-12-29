@@ -229,12 +229,12 @@ class ElementBuilder:
         # Create file picker if not exists
         if not self.file_picker:
             self.file_picker = ft.FilePicker()
-            self.page.overlay.append(self.file_picker)
+            self.page.services.append(self.file_picker)
 
         # Create a text field to display selected file name
         file_text = ft.Text(placeholder, italic=True, color=ft.Colors.GREY)
 
-        def pick_files(e):
+        async def pick_files(e):
             # Determine allowed extensions from accept
             allowed_extensions = None
             if accept:
@@ -246,23 +246,19 @@ class ElementBuilder:
                 elif "," in accept:
                     allowed_extensions = [ext.strip().lstrip(".") for ext in accept.split(",")]
 
-            self.file_picker.pick_files(
+            # In Flet 0.80+, pick_files is async and returns the result directly
+            files = await self.file_picker.pick_files(
                 allow_multiple=multiple,
                 allowed_extensions=allowed_extensions,
             )
 
-        def on_result(e: ft.FilePickerResultEvent):
-            if e.files:
-                file_names = ", ".join([f.name for f in e.files])
+            if files:
+                file_names = ", ".join([f.name for f in files])
                 file_text.value = file_names
-                file_text.update()
-                self.app_state.set_value(name, [f.path for f in e.files])
+                self.app_state.set_value(name, [f.path for f in files])
             else:
                 file_text.value = placeholder
-                file_text.update()
                 self.app_state.set_value(name, [])
-
-        self.file_picker.on_result = on_result
 
         pick_button = ft.Button(
             content=ft.Row([
