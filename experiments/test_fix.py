@@ -3,7 +3,9 @@ Test script to verify the ImageFit -> BoxFit fix works.
 This script imports the elements module and verifies it can be imported without error.
 """
 import sys
-sys.path.insert(0, '/tmp/gh-issue-solver-1767008630206')
+import os
+# Add the parent directory to path so we can import flet_from_json
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 print("Testing import of flet_from_json modules...")
 
