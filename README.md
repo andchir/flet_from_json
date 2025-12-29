@@ -5,7 +5,7 @@ A Python Flet application that dynamically builds graphical user interfaces from
 ## Requirements
 
 - Python 3.9 or higher
-- Flet 0.27.0 or higher
+- Flet 0.80.0 or higher
 
 ## Installation
 
